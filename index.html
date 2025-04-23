@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #282c34;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100vh;
+    }
+    #countdown {
+      font-size: 3em;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Countdown to Launch 🚀</h1>
+  <div id="countdown">Loading...</div>
+
+  <script>
+    const countdown = document.getElementById("countdown");
+    const targetDate = new Date("2025-7-22T15:00:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance <= 0) {
+        countdown.innerHTML = "🎉 The moment has arrived!";
+        clearInterval(timer);
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    const timer = setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+</body>
+</html>
