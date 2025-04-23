@@ -27,8 +27,8 @@
   <script>
     const countdown = document.getElementById("countdown");
 
-    // Updated target date: 22nd July 2025 at 3:00 PM
-    const targetDate = new Date("2025-07-22T15:00:00").getTime();
+    // Set the target date as UTC (22nd July 2025 at 3:00 PM UTC)
+    const targetDate = new Date("2025-07-22T15:00:00Z").getTime();
 
     // Check if the date was parsed correctly
     if (isNaN(targetDate)) {
