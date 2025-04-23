@@ -26,7 +26,15 @@
 
   <script>
     const countdown = document.getElementById("countdown");
-    const targetDate = new Date("2025-7-22T15:00:00").getTime();
+
+    // Make sure the target date format is correct
+    const targetDate = new Date("2025-07-22T15:00:00").getTime();
+
+    // Check if the date was parsed correctly
+    if (isNaN(targetDate)) {
+      countdown.innerHTML = "Error: Invalid target date";
+      throw new Error("Invalid target date");
+    }
 
     function updateCountdown() {
       const now = new Date().getTime();
