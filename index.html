@@ -15,43 +15,61 @@
       height: 100vh;
     }
     #countdown {
-      font-size: 3em;
+      font-size: 2em;
       margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>Countdown to Event 🚀</h1>
+  <h1>Time until we leave this hellhole</h1>
   <div id="countdown">Loading...</div>
 
   <script>
     const countdown = document.getElementById("countdown");
 
-    // Set the target date as UTC (22nd July 2025 at 3:00 PM UTC)
-    const targetDate = new Date("2025-07-22T15:00:00Z").getTime();
+    // Target date (UTC)
+    const targetDate = new Date("2025-07-22T15:00:00Z");
 
-    // Check if the date was parsed correctly
     if (isNaN(targetDate)) {
       countdown.innerHTML = "Error: Invalid target date";
       throw new Error("Invalid target date");
     }
 
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
+    function countWeekdays(start, end) {
+      let count = 0;
+      const current = new Date(start);
 
-      if (distance <= 0) {
+      // Loop through each day until the end date
+      while (current <= end) {
+        const day = current.getDay();
+        if (day !== 0 && day !== 6) { // Not Sunday (0) or Saturday (6)
+          count++;
+        }
+        current.setDate(current.getDate() + 1);
+      }
+
+      return count;
+    }
+
+    function updateCountdown() {
+      const now = new Date();
+
+      if (now >= targetDate) {
         countdown.innerHTML = "🎉 The moment has arrived!";
         clearInterval(timer);
         return;
       }
 
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      // Calculate remaining weekdays
+      const weekdays = countWeekdays(now, targetDate);
+
+      // Time breakdown
+      const distance = targetDate - now;
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      countdown.innerHTML = `Weekdays left: ${weekdays}<br>${hours}h ${minutes}m ${seconds}s`;
     }
 
     const timer = setInterval(updateCountdown, 1000);
